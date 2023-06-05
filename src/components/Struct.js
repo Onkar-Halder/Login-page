@@ -3,32 +3,32 @@ import data from "../users.json";
 import { AiFillDelete } from "react-icons/ai";
 import { Button, Container } from "react-bootstrap";
 
-const Struct= () => {
-  const [selectedStatus, setSelectedStatus] = useState("all");
-  const [filteredUsers, setFilteredUsers] = useState(data);
+const Struct = () => {
+  const [selected, setSelected] = useState("all");
+  const [newusers, setNewusers] = useState(data);
 
   const handleStatusChange = (e) => {
     const selectedValue = e.target.value;
-    setSelectedStatus(selectedValue);
+    setSelected(selectedValue);
 
     if (selectedValue === "inactive") {
       const filtered = data.filter((user) => !user.Status);
-      setFilteredUsers(filtered);
+      setNewusers(filtered);
     } else if (selectedValue === "active") {
       const filtered = data.filter((user) => user.Status);
-      setFilteredUsers(filtered);
+      setNewusers(filtered);
     } else {
-      setFilteredUsers(data);
+      setNewusers(data);
     }
   };
 
   const handleDelete = (id) => {
-    const deleted = filteredUsers.filter((user) => user.id !== id);
-    setFilteredUsers(deleted);
+    const deleted = newusers.filter((user) => user.id !== id);
+    setNewusers(deleted);
   };
 
   const handleDownload = () => {
-    const jsonData = JSON.stringify(filteredUsers);
+    const jsonData = JSON.stringify(newusers);
     const blob = new Blob([jsonData], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -47,7 +47,11 @@ const Struct= () => {
       </div>
 
       <div className="status">
-        <select name="status" value={selectedStatus} onChange={handleStatusChange}>
+        <select
+          name="status"
+          value={selected}
+          onChange={handleStatusChange}
+        >
           <option value="all">Select status</option>
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
@@ -69,10 +73,14 @@ const Struct= () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map((user, index) => (
+            {newusers.map((user, index) => (
               <tr key={index}>
                 <th scope="row">
-                  <img src={user.Avatar} className="p-1 bg-gray-300 rounded-full" alt={index} />
+                  <img
+                    src={user.Avatar}
+                    className="p-1 bg-gray-300 rounded-full"
+                    alt={index}
+                  />
                 </th>
                 <td>{user?.first_name}</td>
                 <td>{user?.last_name}</td>
