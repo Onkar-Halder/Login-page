@@ -1,32 +1,30 @@
-import React from 'react'
-import bgimg from '../materials/lgin.jpg' ;
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
+const Form = (props) => {
+    const [email, setEmail] = useState('');
+    const [pass, setPass] = useState('');
 
-function Form() {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(email);
+    }
     const navigate =useNavigate();
     function handleClick(){
         navigate("/struct")
     }
-  return (
-    <section>
-        <div className="register">
-            <div className='col-1'>
-                <h2>Sign in</h2>
-                <span>Register and enjoy the service</span>
-
-                <form id='form' className='flex flex-col'>
-                    <input type="text"  placeHolder='Email'/>
-                    <input type="text"  placeHolder='Password'/>
-                    <button className='btn' onClick={handleClick}>Sign In</button>
-                </form>
-            </div>
-            <div className="col-2">
-                <img src={bgimg} alt=""/>
-            </div>
+    return (
+        <div className="auth-form-container">
+            <h2>Login</h2>
+            <form className="login-form" onSubmit={handleSubmit}>
+                <label htmlFor="email">email</label>
+                <input value={email} onChange={(e) => setEmail(e.target.value)}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
+                <label htmlFor="password">password</label>
+                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" />
+                <button type="submit" onClick={handleClick}>Log In</button>
+            </form>
         </div>
-    </section>
-  )
+    )
 }
-
 export default Form
+
